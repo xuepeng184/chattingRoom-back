@@ -9,6 +9,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  //只启验证密码的作用
   //依据官网安全文档写的
   async validateUser(username: string, pass: string) {
     const user = await this.userService.findMe(username);
