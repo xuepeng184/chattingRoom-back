@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+
+let myUsername
+let mySub
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -30,6 +34,19 @@ export class AuthService {
     // console.log(user.username,'--------');
     //利用内置库传入用户名和id生成jwt
     const payload = { username: user.username, sub: user.id };
+    myUsername=user.username;
+    mySub=user.id
+    return {
+      user_token: this.jwtService.sign(payload),
+      refresh_token:this.jwtService.sign(payload,{
+        secret:'xpRefreshTokenSecret',
+        expiresIn:'24h'
+      })
+    };
+  }
+
+  async refreshToken(){
+    const payload = { username: myUsername, sub: mySub };
     return {
       user_token: this.jwtService.sign(payload),
     };

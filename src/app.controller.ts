@@ -41,4 +41,10 @@ export class AppController {
     // console.log('------->', userDetails);
     return this.authService.login(userDetails);
   }
+
+  @UseGuards(AuthGuard('myJwt'))
+  @Get('refresh')
+  async refresh(@Body() UserDetails: LoginDto){
+    return this.authService.refreshToken()
+  }
 }

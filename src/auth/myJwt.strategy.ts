@@ -1,15 +1,16 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
-import { jwtConstants } from './constants';
 
+
+//用于refreshToken
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class myJwtStrategy extends PassportStrategy(Strategy,'myJwt') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret,
+      secretOrKey: 'xpRefreshTokenSecret',
     });
   }
 
@@ -17,7 +18,3 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return { userId: payload.sub, username: payload.username };
   }
 }
-
-
-
-

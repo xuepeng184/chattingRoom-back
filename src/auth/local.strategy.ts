@@ -10,12 +10,9 @@ import { AuthService } from './auth.service';
     }
 
     async validate(username:string,password:string){
-      // console.log(username,password);
-      console.log('我启用了');
       const user=await this.authService.validateUser(username,password);
-      console.log(user);
       if(!user){
-        throw new UnauthorizedException()
+        throw new UnauthorizedException('token错误')
       }
       return user
     }
